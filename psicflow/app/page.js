@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { getPatients } from "../lib/storage";
 import { getAppointments, typeInfo } from "../lib/appointments";
+import { getTransactions, currentMonthTransactions, fmtCurrency } from "../lib/finance";
 
 function todayLabel() {
   const d = new Date();
@@ -46,10 +47,12 @@ function MetricCard({ icon: Icon, label, value, sub, subColor = "text-gray-400" 
 export default function DashboardPage() {
   const [patients, setPatients] = useState([]);
   const [appointments, setAppointments] = useState([]);
+  const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     setPatients(getPatients());
     setAppointments(getAppointments());
+    setTransactions(getTransactions());
   }, []);
 
   const activePatients = patients.filter((p) => p.status === "Ativo");
@@ -57,6 +60,11 @@ export default function DashboardPage() {
   const todaysAppts = appointments
     .filter((a) => a.date === todayIso())
     .sort((a, b) => a.startTime.localeCompare(b.startTime));
+
+  const monthTx = currentMonthTransactions(transactions);
+  const receitasMes = monthTx
+    .filter((t) => t.type === "receita")
+    .reduce((s, t) => s + Number(t.value), 0);
 
   return (
     <div>
@@ -76,7 +84,7 @@ export default function DashboardPage() {
           sub={`${patients.length} cadastrados no total`}
           subColor="text-green-600"
         />
-        <MetricCard icon={Wallet} label="Faturamento do mês" value="R$ 0,00" sub="Módulo financeiro em breve" />
+        <MetricCard icon={Wallet} label="Faturamento do mês" value={fmtCurrency(receitasMes)} sub={monthTx.length ? "Ver financeiro" : "Nenhum lançamento"} subColor="text-brand" />
         <MetricCard icon={Clock} label="Total de consultas" value={appointments.length} sub="Cadastradas na agenda" subColor="text-green-600" />
       </div>
 
@@ -141,8 +149,8 @@ export default function DashboardPage() {
       <div className="mt-4 bg-white border border-gray-200 rounded-xl p-5 flex items-center gap-3">
         <TrendingUp size={18} className="text-brand shrink-0" />
         <p className="text-sm text-gray-600">
-          Progresso do sistema: Dashboard, Pacientes e Agenda prontos. Prontuários,
-          financeiro, relatórios, tarefas, recursos e configurações entram nos
+          Progresso do sistema: Dashboard, Pacientes, Agenda, Prontuários e Financeiro
+          prontos. Relatórios, tarefas, recursos e configurações entram nos
           próximos pacotes.
         </p>
       </div>

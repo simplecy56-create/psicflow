@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { User, Trash2, Save, AlertTriangle } from "lucide-react";
-import PageHeader from "../../components/PageHeader";
-import { getProfile, saveProfile, clearAllData } from "../../lib/profile";
+import PageHeader from "../../../components/PageHeader";
+import { getProfile, saveProfile, clearAllData } from "../../../lib/profile";
 
 export default function ConfiguracoesPage() {
   const [profile, setProfile] = useState({

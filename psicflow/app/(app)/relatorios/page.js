@@ -2,10 +2,10 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { BarChart3, Users, Wallet, CalendarCheck } from "lucide-react";
-import PageHeader from "../../components/PageHeader";
-import { getPatients } from "../../lib/storage";
-import { getAppointments, APPOINTMENT_TYPES, typeInfo } from "../../lib/appointments";
-import { getTransactions, currentMonthTransactions, fmtCurrency } from "../../lib/finance";
+import PageHeader from "../../../components/PageHeader";
+import { getPatients } from "../../../lib/storage";
+import { getAppointments, APPOINTMENT_TYPES, typeInfo } from "../../../lib/appointments";
+import { getTransactions, currentMonthTransactions, fmtCurrency } from "../../../lib/finance";
 
 function monthLabel(date) {
   const label = date.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
@@ -18,7 +18,7 @@ export default function RelatoriosPage() {
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    setPatients(getPatients());
+    getPatients().then(setPatients);
     setAppointments(getAppointments());
     setTransactions(getTransactions());
   }, []);

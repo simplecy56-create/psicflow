@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Trash2, Phone, Mail, X } from "lucide-react";
-import PageHeader from "../../components/PageHeader";
-import { getPatients, addPatient, removePatient } from "../../lib/storage";
+import PageHeader from "../../../components/PageHeader";
+import { getPatients, addPatient, removePatient } from "../../../lib/storage";
 
 function initials(name) {
   return name
@@ -21,20 +21,20 @@ export default function PacientesPage() {
   const [form, setForm] = useState({ name: "", phone: "", email: "" });
 
   useEffect(() => {
-    setPatients(getPatients());
+    getPatients().then(setPatients);
   }, []);
 
-  function handleAdd(e) {
+  async function handleAdd(e) {
     e.preventDefault();
     if (!form.name.trim()) return;
-    const updated = addPatient(form);
+    const updated = await addPatient(form);
     setPatients(updated);
     setForm({ name: "", phone: "", email: "" });
     setShowForm(false);
   }
 
-  function handleRemove(id) {
-    const updated = removePatient(id);
+  async function handleRemove(id) {
+    const updated = await removePatient(id);
     setPatients(updated);
     if (selected?.id === id) setSelected(null);
   }

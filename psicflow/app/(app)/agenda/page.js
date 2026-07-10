@@ -2,15 +2,15 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import PageHeader from "../../components/PageHeader";
-import { getPatients } from "../../lib/storage";
+import PageHeader from "../../../components/PageHeader";
+import { getPatients } from "../../../lib/storage";
 import {
   getAppointments,
   addAppointment,
   removeAppointment,
   APPOINTMENT_TYPES,
   typeInfo,
-} from "../../lib/appointments";
+} from "../../../lib/appointments";
 
 const DAY_LABELS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 const HOURS = Array.from({ length: 12 }, (_, i) => 7 + i); // 07h to 18h
@@ -54,7 +54,7 @@ export default function AgendaPage() {
 
   useEffect(() => {
     setAppointments(getAppointments());
-    setPatients(getPatients());
+    getPatients().then(setPatients);
   }, []);
 
   const weekDays = useMemo(

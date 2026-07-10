@@ -2,14 +2,14 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { FolderOpen, Star, X, Trash2, FileText } from "lucide-react";
-import PageHeader from "../../components/PageHeader";
+import PageHeader from "../../../components/PageHeader";
 import {
   getResources,
   addResource,
   removeResource,
   toggleFavorite,
   CATEGORIES,
-} from "../../lib/resources";
+} from "../../../lib/resources";
 
 export default function RecursosPage() {
   const [resources, setResources] = useState([]);

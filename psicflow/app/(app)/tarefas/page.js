@@ -2,9 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { CheckSquare, X, Trash2, Circle, CircleDot, CheckCircle2 } from "lucide-react";
-import PageHeader from "../../components/PageHeader";
-import { getPatients } from "../../lib/storage";
-import { getTasks, addTask, removeTask, cycleStatus, isOverdue } from "../../lib/tasks";
+import PageHeader from "../../../components/PageHeader";
+import { getPatients } from "../../../lib/storage";
+import { getTasks, addTask, removeTask, cycleStatus, isOverdue } from "../../../lib/tasks";
 
 const STATUS_STYLE = {
   Pendente: { bg: "bg-amber-50", text: "text-amber-700", icon: Circle },
@@ -30,7 +30,7 @@ export default function TarefasPage() {
 
   useEffect(() => {
     setTasks(getTasks());
-    setPatients(getPatients());
+    getPatients().then(setPatients);
   }, []);
 
   const counts = useMemo(

@@ -8,9 +8,9 @@ import {
   Clock,
   TrendingUp,
 } from "lucide-react";
-import { getPatients } from "../lib/storage";
-import { getAppointments, typeInfo } from "../lib/appointments";
-import { getTransactions, currentMonthTransactions, fmtCurrency } from "../lib/finance";
+import { getPatients } from "../../lib/storage";
+import { getAppointments, typeInfo } from "../../lib/appointments";
+import { getTransactions, currentMonthTransactions, fmtCurrency } from "../../lib/finance";
 
 function todayLabel() {
   const d = new Date();
@@ -50,7 +50,7 @@ export default function DashboardPage() {
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    setPatients(getPatients());
+    getPatients().then(setPatients);
     setAppointments(getAppointments());
     setTransactions(getTransactions());
   }, []);

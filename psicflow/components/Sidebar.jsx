@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   Calendar,
@@ -14,7 +14,9 @@ import {
   Settings,
   HelpCircle,
   Stethoscope,
+  LogOut,
 } from "lucide-react";
+import { createClient } from "../lib/supabase";
 
 const navItems = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -30,6 +32,14 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  async function handleLogout() {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  }
 
   return (
     <aside className="w-60 bg-sidebar text-white flex flex-col shrink-0">
@@ -68,6 +78,13 @@ export default function Sidebar() {
           <HelpCircle size={18} />
           <span>Ajuda e suporte</span>
         </div>
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-white/60 hover:text-white hover:bg-white/5 text-sm"
+        >
+          <LogOut size={18} />
+          <span>Sair</span>
+        </button>
       </div>
 
       <div className="border-t border-white/10 px-4 py-4 flex items-center gap-3">

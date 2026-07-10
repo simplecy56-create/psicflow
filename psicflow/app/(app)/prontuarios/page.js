@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { FileText, Plus, X, Target, Stethoscope } from "lucide-react";
-import PageHeader from "../../components/PageHeader";
-import { getPatients } from "../../lib/storage";
+import PageHeader from "../../../components/PageHeader";
+import { getPatients } from "../../../lib/storage";
 import {
   recordsForPatient,
   addRecord,
   removeRecord,
   getProfile,
   saveProfile,
-} from "../../lib/records";
+} from "../../../lib/records";
 
 function initials(name) {
   return name
@@ -43,9 +43,10 @@ export default function ProntuariosPage() {
   });
 
   useEffect(() => {
-    const p = getPatients();
-    setPatients(p);
-    if (p.length > 0) setSelectedId(p[0].id);
+    getPatients().then((p) => {
+      setPatients(p);
+      if (p.length > 0) setSelectedId(p[0].id);
+    });
   }, []);
 
   useEffect(() => {

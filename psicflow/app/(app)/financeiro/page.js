@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { TrendingUp, TrendingDown, Wallet, X, Trash2 } from "lucide-react";
-import PageHeader from "../../components/PageHeader";
-import { getPatients } from "../../lib/storage";
+import PageHeader from "../../../components/PageHeader";
+import { getPatients } from "../../../lib/storage";
 import {
   getTransactions,
   addTransaction,
@@ -12,7 +12,7 @@ import {
   CATEGORIES,
   currentMonthTransactions,
   fmtCurrency,
-} from "../../lib/finance";
+} from "../../../lib/finance";
 
 function fmtDate(dateStr) {
   return new Date(dateStr).toLocaleDateString("pt-BR", {
@@ -38,7 +38,7 @@ export default function FinanceiroPage() {
 
   useEffect(() => {
     setTransactions(getTransactions());
-    setPatients(getPatients());
+    getPatients().then(setPatients);
   }, []);
 
   const monthTx = useMemo(() => currentMonthTransactions(transactions), [transactions]);
